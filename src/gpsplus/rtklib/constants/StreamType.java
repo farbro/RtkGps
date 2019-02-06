@@ -49,6 +49,9 @@ public enum StreamType implements IHasRtklibId {
     // XXX
     MOBILEMAPPER(15, R.string.str_mobilemapper),
 
+    // Internal
+    INTERNAL(15, R.string.str_internal),
+
     ;
 
     private final int mRtklibId;

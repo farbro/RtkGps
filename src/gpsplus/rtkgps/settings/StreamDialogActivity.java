@@ -80,6 +80,10 @@ public class StreamDialogActivity extends Activity {
             fragment = new StreamNtripClientFragment();
             title = R.string.ntrip_client_dialog_title;
             break;
+        case INTERNAL:
+            fragment = new StreamInternalFragment();
+            title = R.string.internal_dialog_title;
+            break;
         default:
             throw new IllegalArgumentException("wrong ARG_FRAGMENT_ARGUMENTS");
         }

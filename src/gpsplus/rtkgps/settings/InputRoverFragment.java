@@ -52,7 +52,8 @@ public class InputRoverFragment extends PreferenceFragment {
         StreamType.TCPCLI,
         StreamType.UDPCLI,
         StreamType.NTRIPCLI,
-        StreamType.FILE
+        StreamType.FILE,
+        StreamType.INTERNAL,
     };
 
     static final StreamType DEFAULT_STREAM_TYPE = StreamType.BLUETOOTH;

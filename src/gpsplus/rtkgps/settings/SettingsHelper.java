@@ -353,6 +353,9 @@ public class SettingsHelper {
         case USB:
             settings = StreamUsbFragment.readSettings(context, prefs, stream);
             break;
+        case INTERNAL:
+            settings = StreamInternalFragment.readSettings(context, prefs, stream);
+            break;
         case NONE:
             settings = RtkServerSettings.TRANSPORT_DUMMY;
             break;
@@ -411,6 +414,8 @@ public class SettingsHelper {
         case MOBILEMAPPER:
             summary = StreamMobileMapperFragment.readSummary(prefs);
             break;
+        case INTERNAL:
+            summary = StreamInternalFragment.readSummary(prefs);
         case NONE:
             summary="";
             break;

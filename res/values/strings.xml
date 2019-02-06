@@ -744,6 +744,7 @@
     </string-array>
 
     <!-- USB stream preferences -->
+    <string name="internal_dialog_title">Internal receiver settings</string>
     
 	<string name="usb_connected">USB connected</string>
     <string name="usb_connection_lost">USB connection lost</string>
@@ -794,6 +795,9 @@
 	    <item>1</item>
 	    <item>2</item>
 	</string-array>
+
+    <!-- Internal receiver settings -->
+
     
 	<!-- Startup/shutdown commands preference widget -->
 	<string name="send_commands_at_startup">Send commands at startup</string>
@@ -849,4 +853,5 @@
     <string name="point_name_input_title">Point name</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancel</string>
+    <string name="str_internal">Internal receiver</string>
 </resources>

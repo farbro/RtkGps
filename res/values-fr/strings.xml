@@ -751,4 +751,6 @@
   <string name="point_name_input_title">Nom du point</string>
   <string name="button_ok">OK</string>
   <string name="button_cancel">Annuler</string>
+    <string name="str_internal">Internal</string>
+    <string name="internal_dialog_title">Internal receiver settings</string>
 </resources>

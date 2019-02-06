@@ -45,6 +45,7 @@ import gpsplus.rtkgps.settings.SettingsHelper;
 import gpsplus.rtkgps.settings.SolutionOutputSettingsFragment;
 import gpsplus.rtkgps.settings.StreamBluetoothFragment;
 import gpsplus.rtkgps.settings.StreamBluetoothFragment.Value;
+import gpsplus.rtkgps.settings.StreamInternalFragment;
 import gpsplus.rtkgps.settings.StreamMobileMapperFragment;
 import gpsplus.rtkgps.settings.StreamUsbFragment;
 import gpsplus.rtkgps.utils.GpsTime;
@@ -145,6 +146,7 @@ public class RtkNaviService extends IntentService implements LocationListener {
     private BluetoothToRtklib mBtRover, mBtBase;
     private UsbToRtklib mUsbReceiver;
     private MobileMapperToRtklib mMobileMapperToRtklib;
+    private InternalReceiverToRtklib mInternalReceiverToRtklib;
     private boolean mBoolIsRunning = false;
     private boolean mBoolLocationServiceIsConnected = false;
     private boolean mBoolMockLocationsPref = false;
@@ -386,6 +388,7 @@ public class RtkNaviService extends IntentService implements LocationListener {
         startBluetoothPipes();
         startUsb();
         startMobileMapper();
+        startInternalReceiver();
 
         mCpuLock.acquire();
 
@@ -828,6 +831,27 @@ public class RtkNaviService extends IntentService implements LocationListener {
         if (mUsbReceiver != null) {
             mUsbReceiver.stop();
             mUsbReceiver = null;
+        }
+    }
+
+
+    private void startInternalReceiver()
+    {
+        RtkServerSettings settings = mRtkServer.getServerSettings();
+        final TransportSettings roverSettings;
+        roverSettings = settings.getInputRover().getTransportSettings();
+        if (roverSettings.getType() == StreamType.INTERNAL) {
+            StreamInternalFragment.Value internalReceiverSettings = (gpsplus.rtkgps.settings.StreamInternalFragment.Value)roverSettings;
+            mInternalReceiverToRtklib = new InternalReceiverToRtklib(this, internalReceiverSettings, mSessionCode);
+            mInternalReceiverToRtklib.start();
+        }
+    }
+
+    private void stopInternalReceiver()
+    {
+        if (mInternalReceiverToRtklib != null) {
+            mInternalReceiverToRtklib.stop();
+            mInternalReceiverToRtklib = null;
         }
     }
 
