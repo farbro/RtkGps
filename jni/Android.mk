@@ -45,7 +45,7 @@ LOCAL_SRC_FILES := \
     proj4/src/PJ_tcc.c proj4/src/PJ_tcea.c proj4/src/PJ_times.c proj4/src/PJ_tmerc.c \
     proj4/src/PJ_airy.c proj4/src/PJ_aitoff.c proj4/src/PJ_august.c proj4/src/PJ_bacon.c \
     proj4/src/PJ_chamb.c proj4/src/PJ_hammer.c proj4/src/PJ_lagrng.c proj4/src/PJ_larr.c \
-    proj4/src/PJ_lask.c proj4/src/PJ_latlong.c proj4/src/PJ_nocol.c proj4/src/PJ_ob_tran.c proj4/src/PJ_oea.c \
+    proj4/src/PJ_lask.c proj4/src/pj_latlong.c proj4/src/PJ_nocol.c proj4/src/PJ_ob_tran.c proj4/src/PJ_oea.c \
     proj4/src/PJ_tpeqd.c proj4/src/PJ_vandg.c proj4/src/PJ_vandg2.c proj4/src/PJ_vandg4.c \
     proj4/src/PJ_wag7.c proj4/src/PJ_lcca.c proj4/src/PJ_geos.c proj4/src/proj_etmerc.c \
     proj4/src/PJ_boggs.c proj4/src/PJ_collg.c proj4/src/PJ_comill.c proj4/src/PJ_crast.c proj4/src/PJ_denoy.c \
