@@ -7,20 +7,17 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.GnssMeasurementsEvent;
-import android.location.GnssStatus;
 import android.location.GnssMeasurement;
+import android.location.GnssClock;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.nio.ByteBuffer;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
@@ -85,30 +82,74 @@ public class InternalReceiverToRtklib implements GpsStatus.Listener, LocationLis
                 @Override
                 public void onGnssMeasurementsReceived(GnssMeasurementsEvent event) {
 
-                    for (GnssMeasurement measurement : event.getMeasurements()) {
-                        int constellationType = measurement.getConstellationType();
-                        float carrierFrequencyHz = measurement.getCarrierFrequencyHz();
-                        int accumulatedDeltaRangeState = measurement.getAccumulatedDeltaRangeState();
-                        double accumulatedDeltaRangeMeters = measurement.getAccumulatedDeltaRangeMeters();
-                        double pseudorangeRate = measurement.getPseudorangeRateMetersPerSecond();
+                    if (isStarting) // run only if starting
+                    {
+                        Log.i(TAG,"Starting streaming from internal receiver");
+                        mLocalSocketThread.start();
+                        isStarting = false;
+                    }
 
-                        Log.v(TAG, "ConstellationType: " + constellationType);
-                        Log.v(TAG, "Carrier Frequency: " + carrierFrequencyHz);
-                        Log.v(TAG, "Accumulated Delta Range State: " + accumulatedDeltaRangeState);
-                        Log.v(TAG, "Accumulated Delta Range, meters: " + accumulatedDeltaRangeMeters);
-                        Log.v(TAG, "Pseudorange rate, meters per second: " + pseudorangeRate);
+                    GnssClock c = event.getClock();
+                    Collection<GnssMeasurement> measurements = event.getMeasurements();
 
+                    Parcel p = Parcel.obtain();
 
-                        if (isStarting) // run only if starting
-                        {
-                            Log.i(TAG,"Starting streaming from internal receiver");
-                            mLocalSocketThread.start();
-                            isStarting = false;
-                        }
+                    // byte[] syncWord = {0x00, 0x00};
+                    // p.writeByteArray(syncWord);
 
-                        // write to socket
-                        // byte[] buffer = new byte[0x10];
-                        // mLocalSocketThread.write(buffer,0,packet.getLength());
+                    p.writeDouble(c.getBiasNanos());
+                    p.writeDouble(c.getBiasUncertaintyNanos());
+                    p.writeDouble(c.getDriftNanosPerSecond());
+                    p.writeDouble(c.getDriftUncertaintyNanosPerSecond());
+                    p.writeLong(c.getFullBiasNanos());
+                    p.writeInt(c.getHardwareClockDiscontinuityCount());
+                    p.writeInt(c.getLeapSecond());
+                    p.writeLong(c.getTimeNanos());
+                    p.writeDouble(c.getTimeUncertaintyNanos());
+                    p.writeByte((byte) (c.hasBiasNanos() ? 1 : 0));
+                    p.writeByte((byte) (c.hasBiasUncertaintyNanos() ? 1 : 0));
+                    p.writeByte((byte) (c.hasDriftNanosPerSecond() ? 1 : 0));
+                    p.writeByte((byte) (c.hasDriftUncertaintyNanosPerSecond() ? 1 : 0));
+                    p.writeByte((byte) (c.hasFullBiasNanos() ? 1 : 0));
+                    p.writeByte((byte) (c.hasLeapSecond() ? 1 : 0));
+                    p.writeByte((byte) (c.hasTimeUncertaintyNanos() ? 1 : 0));
+
+                    p.writeInt(measurements.size());
+
+                    for (GnssMeasurement m : measurements) {
+
+                        p.writeDouble(m.getAccumulatedDeltaRangeMeters());
+                        p.writeInt(m.getAccumulatedDeltaRangeState());
+                        p.writeDouble(m.getAccumulatedDeltaRangeUncertaintyMeters());
+                        p.writeDouble(m.getAutomaticGainControlLevelDb());
+                        p.writeLong(m.getCarrierCycles());
+                        p.writeFloat(m.getCarrierFrequencyHz());
+                        p.writeDouble(m.getCarrierPhase());
+                        p.writeDouble(m.getCarrierPhaseUncertainty());
+                        p.writeDouble(m.getCn0DbHz());
+                        p.writeInt(m.getConstellationType());
+                        p.writeInt(m.getMultipathIndicator());
+                        p.writeDouble(m.getPseudorangeRateUncertaintyMetersPerSecond());
+                        p.writeLong(m.getReceivedSvTimeNanos());
+                        p.writeLong(m.getReceivedSvTimeUncertaintyNanos());
+                        p.writeDouble(m.getSnrInDb());
+                        p.writeInt(m.getState());
+                        p.writeInt(m.getSvid());
+                        p.writeDouble(m.getTimeOffsetNanos());
+                        p.writeByte((byte) (m.hasAutomaticGainControlLevelDb() ? 1 : 0));
+                        p.writeByte((byte) (m.hasCarrierCycles() ? 1 : 0));
+                        p.writeByte((byte) (m.hasCarrierFrequencyHz() ? 1 : 0));
+                        p.writeByte((byte) (m.hasCarrierPhase() ? 1 : 0));
+                        p.writeByte((byte) (m.hasCarrierPhaseUncertainty() ? 1 : 0));
+                        p.writeByte((byte) (m.hasSnrInDb() ? 1 : 0));
+                    }
+
+                    byte[] packet = p.marshall();
+
+                    try {
+                        mLocalSocketThread.write(packet, 0, packet.length);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
 
