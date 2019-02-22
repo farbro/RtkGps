@@ -35,7 +35,7 @@ public enum StreamFormat implements IHasRtklibId {
     RT17(12, R.string.strfmt_rt17),
     /** stream format: SiRF    (reserved) */
     SIRF(13, R.string.strfmt_sirf),
-    /** stream format: Furuno LPY-10000 */
+   /** stream format: Furuno LPY-10000 */
     LEXR(14, R.string.strfmt_lexr),
     /** stream format Septentrio */
     SEPT(15, R.string.strfmt_sept),
@@ -48,8 +48,9 @@ public enum StreamFormat implements IHasRtklibId {
     /** stream format: SBAS messages */
     SBAS(19, R.string.strfmt_sbas),
     /** stream format: NMEA 0183 */
-    NMEA(20, R.string.strfmt_nmea)
-
+    NMEA(20, R.string.strfmt_nmea),
+    /** stream format: Android API level 24 and above */
+    ANDROID(22, R.string.strfmt_android)
     ;
 
     private final int mRtklibId;

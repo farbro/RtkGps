@@ -74,7 +74,8 @@ public class InputRoverFragment extends PreferenceFragment {
         StreamFormat.GW10,
         StreamFormat.JAVAD,
         StreamFormat.NVS,
-        StreamFormat.BINEX
+        StreamFormat.BINEX,
+        StreamFormat.ANDROID,
     };
 
     protected static final StreamFormat DEFAULT_STREAM_FORMAT = StreamFormat.RTCM3;
