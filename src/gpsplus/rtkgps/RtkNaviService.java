@@ -619,6 +619,7 @@ public class RtkNaviService extends IntentService implements LocationListener {
             stopBluetoothPipes();
             stopUsb();
             stopMobileMapper();
+            stopInternalReceiver();
             // Tell the user we stopped.
             Toast.makeText(this, R.string.local_service_stopped, Toast.LENGTH_SHORT)
             .show();
