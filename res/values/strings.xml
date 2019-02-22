@@ -198,6 +198,7 @@
     <string name="strfmt_rnxclk">RINEX CLK</string>
     <string name="strfmt_sbas">SBAS messages</string>
     <string name="strfmt_nmea">NMEA 0183</string>
+    <string name="strfmt_android">Android 7</string>
 
     <!-- STR_XXX Stream type -->
     <string name="str_none">None</string>

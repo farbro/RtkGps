@@ -753,4 +753,5 @@
   <string name="button_cancel">Cancel</string>
     <string name="str_internal">Internal</string>
     <string name="internal_dialog_title">Internal receiver settings</string>
+    <string name="strfmt_android">Android 7</string>
 </resources>
