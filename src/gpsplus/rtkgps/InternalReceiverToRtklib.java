@@ -106,13 +106,13 @@ public class InternalReceiverToRtklib implements GpsStatus.Listener, LocationLis
                     p.writeInt(c.getLeapSecond());
                     p.writeLong(c.getTimeNanos());
                     p.writeDouble(c.getTimeUncertaintyNanos());
-                    p.writeByte((byte) (c.hasBiasNanos() ? 1 : 0));
-                    p.writeByte((byte) (c.hasBiasUncertaintyNanos() ? 1 : 0));
-                    p.writeByte((byte) (c.hasDriftNanosPerSecond() ? 1 : 0));
-                    p.writeByte((byte) (c.hasDriftUncertaintyNanosPerSecond() ? 1 : 0));
-                    p.writeByte((byte) (c.hasFullBiasNanos() ? 1 : 0));
-                    p.writeByte((byte) (c.hasLeapSecond() ? 1 : 0));
-                    p.writeByte((byte) (c.hasTimeUncertaintyNanos() ? 1 : 0));
+                    p.writeInt(c.hasBiasNanos() ? 1 : 0);
+                    p.writeInt(c.hasBiasUncertaintyNanos() ? 1 : 0);
+                    p.writeInt(c.hasDriftNanosPerSecond() ? 1 : 0);
+                    p.writeInt(c.hasDriftUncertaintyNanosPerSecond() ? 1 : 0);
+                    p.writeInt(c.hasFullBiasNanos() ? 1 : 0);
+                    p.writeInt(c.hasLeapSecond() ? 1 : 0);
+                    p.writeInt(c.hasTimeUncertaintyNanos() ? 1 : 0);
 
                     p.writeInt(measurements.size());
 
@@ -136,12 +136,12 @@ public class InternalReceiverToRtklib implements GpsStatus.Listener, LocationLis
                         p.writeInt(m.getState());
                         p.writeInt(m.getSvid());
                         p.writeDouble(m.getTimeOffsetNanos());
-                        p.writeByte((byte) (m.hasAutomaticGainControlLevelDb() ? 1 : 0));
-                        p.writeByte((byte) (m.hasCarrierCycles() ? 1 : 0));
-                        p.writeByte((byte) (m.hasCarrierFrequencyHz() ? 1 : 0));
-                        p.writeByte((byte) (m.hasCarrierPhase() ? 1 : 0));
-                        p.writeByte((byte) (m.hasCarrierPhaseUncertainty() ? 1 : 0));
-                        p.writeByte((byte) (m.hasSnrInDb() ? 1 : 0));
+                        p.writeInt(m.hasAutomaticGainControlLevelDb() ? 1 : 0);
+                        p.writeInt(m.hasCarrierCycles() ? 1 : 0);
+                        p.writeInt(m.hasCarrierFrequencyHz() ? 1 : 0);
+                        p.writeInt(m.hasCarrierPhase() ? 1 : 0);
+                        p.writeInt(m.hasCarrierPhaseUncertainty() ? 1 : 0);
+                        p.writeInt(m.hasSnrInDb() ? 1 : 0);
                     }
 
                     byte[] packet = p.marshall();
