@@ -16,8 +16,11 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteOrder;
 import java.util.Collection;
 import java.util.Iterator;
+import java.nio.ByteBuffer;
+
 
 import javax.annotation.Nonnull;
 
@@ -92,62 +95,64 @@ public class InternalReceiverToRtklib implements GpsStatus.Listener, LocationLis
                     GnssClock c = event.getClock();
                     Collection<GnssMeasurement> measurements = event.getMeasurements();
 
-                    Parcel p = Parcel.obtain();
+                    int msg_size = 92 + 4 + 144*measurements.size();
+
+                    ByteBuffer buf = ByteBuffer.allocate(msg_size);
+                    buf.order(ByteOrder.LITTLE_ENDIAN);
 
                     // byte[] syncWord = {0x00, 0x00};
                     // p.writeByteArray(syncWord);
 
-                    p.writeDouble(c.getBiasNanos());
-                    p.writeDouble(c.getBiasUncertaintyNanos());
-                    p.writeDouble(c.getDriftNanosPerSecond());
-                    p.writeDouble(c.getDriftUncertaintyNanosPerSecond());
-                    p.writeLong(c.getFullBiasNanos());
-                    p.writeInt(c.getHardwareClockDiscontinuityCount());
-                    p.writeInt(c.getLeapSecond());
-                    p.writeLong(c.getTimeNanos());
-                    p.writeDouble(c.getTimeUncertaintyNanos());
-                    p.writeInt(c.hasBiasNanos() ? 1 : 0);
-                    p.writeInt(c.hasBiasUncertaintyNanos() ? 1 : 0);
-                    p.writeInt(c.hasDriftNanosPerSecond() ? 1 : 0);
-                    p.writeInt(c.hasDriftUncertaintyNanosPerSecond() ? 1 : 0);
-                    p.writeInt(c.hasFullBiasNanos() ? 1 : 0);
-                    p.writeInt(c.hasLeapSecond() ? 1 : 0);
-                    p.writeInt(c.hasTimeUncertaintyNanos() ? 1 : 0);
+                    buf.putDouble(c.getBiasNanos());
+                    buf.putDouble(c.getBiasUncertaintyNanos());
+                    buf.putDouble(c.getDriftNanosPerSecond());
+                    buf.putDouble(c.getDriftUncertaintyNanosPerSecond());
+                    buf.putLong(c.getFullBiasNanos());
+                    buf.putInt(c.getHardwareClockDiscontinuityCount());
+                    buf.putInt(c.getLeapSecond());
+                    buf.putDouble(c.getTimeUncertaintyNanos());
+                    buf.putInt(c.hasBiasNanos() ? 1 : 0);
+                    buf.putInt(c.hasBiasUncertaintyNanos() ? 1 : 0);
+                    buf.putInt(c.hasDriftNanosPerSecond() ? 1 : 0);
+                    buf.putInt(c.hasDriftUncertaintyNanosPerSecond() ? 1 : 0);
+                    buf.putInt(c.hasFullBiasNanos() ? 1 : 0);
+                    buf.putInt(c.hasLeapSecond() ? 1 : 0);
+                    buf.putInt(c.hasTimeUncertaintyNanos() ? 1 : 0);
 
-                    p.writeInt(measurements.size());
+                    buf.putInt(measurements.size());
 
                     for (GnssMeasurement m : measurements) {
 
-                        p.writeDouble(m.getAccumulatedDeltaRangeMeters());
-                        p.writeInt(m.getAccumulatedDeltaRangeState());
-                        p.writeDouble(m.getAccumulatedDeltaRangeUncertaintyMeters());
-                        p.writeDouble(m.getAutomaticGainControlLevelDb());
-                        p.writeLong(m.getCarrierCycles());
-                        p.writeFloat(m.getCarrierFrequencyHz());
-                        p.writeDouble(m.getCarrierPhase());
-                        p.writeDouble(m.getCarrierPhaseUncertainty());
-                        p.writeDouble(m.getCn0DbHz());
-                        p.writeInt(m.getConstellationType());
-                        p.writeInt(m.getMultipathIndicator());
-                        p.writeDouble(m.getPseudorangeRateUncertaintyMetersPerSecond());
-                        p.writeLong(m.getReceivedSvTimeNanos());
-                        p.writeLong(m.getReceivedSvTimeUncertaintyNanos());
-                        p.writeDouble(m.getSnrInDb());
-                        p.writeInt(m.getState());
-                        p.writeInt(m.getSvid());
-                        p.writeDouble(m.getTimeOffsetNanos());
-                        p.writeInt(m.hasAutomaticGainControlLevelDb() ? 1 : 0);
-                        p.writeInt(m.hasCarrierCycles() ? 1 : 0);
-                        p.writeInt(m.hasCarrierFrequencyHz() ? 1 : 0);
-                        p.writeInt(m.hasCarrierPhase() ? 1 : 0);
-                        p.writeInt(m.hasCarrierPhaseUncertainty() ? 1 : 0);
-                        p.writeInt(m.hasSnrInDb() ? 1 : 0);
+                        buf.putDouble(m.getAccumulatedDeltaRangeMeters());
+                        buf.putInt(m.getAccumulatedDeltaRangeState());
+                        buf.putDouble(m.getAccumulatedDeltaRangeUncertaintyMeters());
+                        buf.putDouble(m.getAutomaticGainControlLevelDb());
+                        buf.putLong(m.getCarrierCycles());
+                        buf.putFloat(m.getCarrierFrequencyHz());
+                        buf.putDouble(m.getCarrierPhase());
+                        buf.putDouble(m.getCarrierPhaseUncertainty());
+                        buf.putDouble(m.getCn0DbHz());
+                        buf.putInt(m.getConstellationType());
+                        buf.putInt(m.getMultipathIndicator());
+                        buf.putDouble(m.getPseudorangeRateUncertaintyMetersPerSecond());
+                        buf.putLong(m.getReceivedSvTimeNanos());
+                        buf.putLong(m.getReceivedSvTimeUncertaintyNanos());
+                        buf.putDouble(m.getSnrInDb());
+                        buf.putInt(m.getState());
+                        buf.putInt(m.getSvid());
+                        buf.putDouble(m.getTimeOffsetNanos());
+                        buf.putInt(m.hasAutomaticGainControlLevelDb() ? 1 : 0);
+                        buf.putInt(m.hasCarrierCycles() ? 1 : 0);
+                        buf.putInt(m.hasCarrierFrequencyHz() ? 1 : 0);
+                        buf.putInt(m.hasCarrierPhase() ? 1 : 0);
+                        buf.putInt(m.hasCarrierPhaseUncertainty() ? 1 : 0);
+                        buf.putInt(m.hasSnrInDb() ? 1 : 0);
                     }
 
-                    byte[] packet = p.marshall();
+                    byte[] bytes = buf.array();
 
                     try {
-                        mLocalSocketThread.write(packet, 0, packet.length);
+                        mLocalSocketThread.write(bytes, 0, bytes.length);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
