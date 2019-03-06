@@ -153,7 +153,7 @@ public class RtkServer {
     }
 
     public void readRNX(String file) {
-        //TODO call readrnx in rtklib
+        _readrnxnavtc(file);
     }
 
     public void readSatAnt(String file){
@@ -241,4 +241,5 @@ public class RtkServer {
 
     private native void _readsp3(String file);
     private native void _readsatant(String file);
+    private native void _readrnxnavtc(String file);
 }
