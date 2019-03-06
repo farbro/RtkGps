@@ -714,6 +714,13 @@ static void RtkServer__readrnxnavtc(JNIEnv* env, jclass thiz, jstring file)
    int rcv = 0;   // Probably not important
    double tint;   // ts - te?
 
+   ts.time = 0;
+   ts.sec = 0;
+   te.time = 0;
+   te.sec = 0;
+
+
+
    nctx = (struct native_ctx_t *)(uintptr_t)(*env)->GetLongField(env, thiz, m_object_field);
    if (nctx == NULL) {
 	  LOGV("nctx is null");
