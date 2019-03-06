@@ -152,6 +152,10 @@ public class RtkServer {
         _readsp3(file);
     }
 
+    public void readRNX(String file) {
+        //TODO call readrnx in rtklib
+    }
+
     public void readSatAnt(String file){
         _readsatant(file);
     }

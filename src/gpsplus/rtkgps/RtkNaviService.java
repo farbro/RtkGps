@@ -242,6 +242,11 @@ public class RtkNaviService extends IntentService implements LocationListener {
             mRtkServer.readSP3(file);
     }
 
+    public static void loadRNX(String file) {
+        if (mRtkServer != null)
+            mRtkServer.readRNX(file);
+    }
+
     public static void loadSatAnt(String file) {
         if (mRtkServer != null)
             mRtkServer.readSatAnt(file);
@@ -380,8 +385,15 @@ public class RtkNaviService extends IntentService implements LocationListener {
         EphemerisOption ephemerisOption = EphemerisOption.valueOf(ephemVa);
         PreciseEphemerisProvider provider = ephemerisOption.getProvider();
         if (provider != null) {
+            String path = PreciseEphemerisDownloader.getCurrentOrbitFile(provider).getAbsolutePath();
+
             if (PreciseEphemerisDownloader.isCurrentOrbitsPresent(provider)) {
-                loadSP3(PreciseEphemerisDownloader.getCurrentOrbitFile(provider).getAbsolutePath());
+                if (ephemerisOption == EphemerisOption.BRDC_NASA)
+                    loadRNX(path);
+                else
+                    loadSP3(path);
+            } else {
+                Log.e(TAG, path + " not found. Download a fresh one from the Tools menu.");
             }
         }
 

@@ -254,6 +254,7 @@
     <string name="ephopt_ssrapc">Broadcast + SSR APC</string>
     <string name="ephopt_ssrcom">Broadcast + SSR CoM</string>
     <string name="ephopt_lex">QZSS LEX ephemeris</string>
+    <string name="ephopt_brdc_nasa">Broadcast ephemeris from NASA</string>
 
     <!-- Station position type -->
     <string name="stapos_in_prcopt">Specified position</string>

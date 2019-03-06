@@ -4,7 +4,9 @@ public enum PreciseEphemerisProvider {
 
     IGU_NASA("IGU NASA","ftp://anonymous:world.com@cddis.gsfc.nasa.gov/gnss/products/%W/","igu%W%D_%hb.sp3",".Z",474050),
     IGU_IGN("IGU IGN","ftp://anonymous:world.com@igs.ensg.ign.fr/pub/igs/products/%W/","igu%W%D_%hb.sp3",".Z",474050),
-    ESU_ESA("ESU ESA","http://navigation-office.esa.int/products/gnss-products/%W/","esu%W%D_%hb.sp3",".Z",800642);
+    ESU_ESA("ESU ESA","http://navigation-office.esa.int/products/gnss-products/%W/","esu%W%D_%hb.sp3",".Z",800642),
+    BRDC_NASA("Broadcast NASA", "ftp://cddis.nasa.gov/gnss/data/hourly/%Y/%n/", "hour%n0.%yn", ".Z", 80000);
+
     private final String name;
     private final String URLTemplateDir;
     private final String URLTemplateFileDest;
