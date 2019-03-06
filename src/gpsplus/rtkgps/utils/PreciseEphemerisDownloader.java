@@ -135,7 +135,7 @@ public class PreciseEphemerisDownloader extends AsyncTask<Void, Integer, String>
             int progress = 0;
             try {
 
-                if (!destFile.exists()) {
+                //if (!destFile.exists()) {
                     if (url.getProtocol() == "http")
                     {
                         is = url.openStream();
@@ -176,10 +176,10 @@ public class PreciseEphemerisDownloader extends AsyncTask<Void, Integer, String>
                         zStream.close();
                         iguCurrentFile = destFile.getAbsolutePath();
 
-                }else{
+                /*}else{
                     iguCurrentFile = destFile.getAbsolutePath();
 
-                }
+                }*/
 
                  } catch (IOException e) {
                      // TODO Auto-generated catch block
