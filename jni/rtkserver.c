@@ -720,6 +720,7 @@ static void RtkServer__readrnxnavtc(JNIEnv* env, jclass thiz, jstring file)
 	  return;
    }
 
+   /* TODO:  Get the ts and te gtime, should be working after that */
     /* * read rinex obs and nav files 
     * args   : char *file    I      file (wild-card * expanded) ("": stdin)
     *          int   rcv     I      receiver number for obs data
