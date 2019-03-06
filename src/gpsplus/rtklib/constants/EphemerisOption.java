@@ -18,7 +18,7 @@ public enum EphemerisOption implements IHasRtklibId {
     /** ephemeris option: precise ephemeris */
     PREC_IGU_NASA(1, R.string.ephopt_prec_nasa,PreciseEphemerisProvider.IGU_NASA),
     /** ephemeris option: precise ephemeris */
-    BRDC_NASA(1, R.string.ephopt_brdc_nasa,PreciseEphemerisProvider.BRDC_NASA),
+    BRDC_NASA(0, R.string.ephopt_brdc_nasa,PreciseEphemerisProvider.BRDC_NASA),
     /** ephemeris option: broadcast + SBAS */
     SBAS(2, R.string.ephopt_sbas,null),
     /** ephemeris option: broadcast + SSR APC correction (antenna phase  center value) */
