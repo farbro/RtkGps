@@ -735,7 +735,7 @@ static void RtkServer__readrnxnavtc(JNIEnv* env, jclass thiz, jstring file)
 	const char *filename = (*env)->GetStringUTFChars(env, file, 0);
 
     /* TODO: Fix input arguments */
-    readrnxt(filename, 1, "", NULL, &nav, NULL); 
+    readrnxt(filename, 1, ts, te, tint, "", NULL, &nav, NULL); 
 
 
 	//OK so update to server
