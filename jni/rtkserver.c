@@ -708,21 +708,35 @@ static void RtkServer__readrnxnavtc(JNIEnv* env, jclass thiz, jstring file)
    struct native_ctx_t *nctx;
    nav_t nav={0};
    rtksvr_t *svr;
-   int n, opt = 0;
+
+   //Additions
+   gtime_t ts, te;// from obs?
+   int rcv = 0;   // Probably not important
+   double tint;   // ts - te?
 
    nctx = (struct native_ctx_t *)(uintptr_t)(*env)->GetLongField(env, thiz, m_object_field);
    if (nctx == NULL) {
 	  LOGV("nctx is null");
 	  return;
    }
+
+    /* * read rinex obs and nav files 
+    * args   : char *file    I      file (wild-card * expanded) ("": stdin)
+    *          int   rcv     I      receiver number for obs data
+    *         (gtime_t ts)   I      observation time start (ts.time==0: no limit)
+    *         (gtime_t te)   I      observation time end   (te.time==0: no limit)
+    *         (double tint)  I      observation time interval (s) (0:all)
+    *          char  *opt    I      rinex options (see below,"": no option)
+    *          obs_t *obs    IO     observation data   (NULL: no input)
+    *          nav_t *nav    IO     navigation data    (NULL: no input)
+    *          sta_t *sta    IO     station parameters (NULL: no input)
+    * return : status (1:ok,0:no data,-1:error)*/
+
 	const char *filename = (*env)->GetStringUTFChars(env, file, 0);
-	/* readsp3(filename,&nav,0); */
-    readrnx(filename, 1, "", NULL, &nav, NULL);
-	/* test if there is some ephemeris */
-	if (nav.ne<=0) {
-	            tracet(1,"sp3 file read error: %s\n",file);
-	            return;
-	        }
+
+    /* TODO: Fix input arguments */
+    readrnxt(filename, 1, "", NULL, &nav, NULL); 
+
 
 	//OK so update to server
 	svr = &nctx->rtksvr;
