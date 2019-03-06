@@ -727,7 +727,6 @@ static void RtkServer__readrnxnavtc(JNIEnv* env, jclass thiz, jstring file)
 	  return;
    }
 
-   /* TODO:  Get the ts and te gtime, should be working after that */
     /* * read rinex obs and nav files 
     * args   : char *file    I      file (wild-card * expanded) ("": stdin)
     *          int   rcv     I      receiver number for obs data
@@ -742,19 +741,15 @@ static void RtkServer__readrnxnavtc(JNIEnv* env, jclass thiz, jstring file)
 
 	const char *filename = (*env)->GetStringUTFChars(env, file, 0);
 
-    /* TODO: Fix input arguments */
-    readrnxt(filename, 1, ts, te, tint, "", NULL, &nav, NULL); 
-
+    readrnxt(filename, 1, ts, te, tint, "", NULL, &naqv, NULL);
 
 	//OK so update to server
 	svr = &nctx->rtksvr;
 	rtksvrlock(svr);
 
-    svr->nav = nav;
-
-    /* if (svr->nav.peph) free(svr->nav.peph); */
-    /* svr->nav.ne=svr->nav.nemax=nav.ne; */
-    /* svr->nav.peph=nav.peph; */
+    if (svr->nav.eph) free(svr->nav.eph);
+    svr->nav.n=svr->nav.nmax=nav.n;
+    svr->nav.eph=nav.eph;
 
 	rtksvrunlock(svr);
 	(*env)->ReleaseStringUTFChars(env,file, filename);
