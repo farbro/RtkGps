@@ -741,9 +741,12 @@ static void RtkServer__readrnxnavtc(JNIEnv* env, jclass thiz, jstring file)
 	//OK so update to server
 	svr = &nctx->rtksvr;
 	rtksvrlock(svr);
-    if (svr->nav.peph) free(svr->nav.peph);
-    svr->nav.ne=svr->nav.nemax=nav.ne;
-    svr->nav.peph=nav.peph;
+
+    svr->nav = nav;
+
+    /* if (svr->nav.peph) free(svr->nav.peph); */
+    /* svr->nav.ne=svr->nav.nemax=nav.ne; */
+    /* svr->nav.peph=nav.peph; */
 
 	rtksvrunlock(svr);
 	(*env)->ReleaseStringUTFChars(env,file, filename);
