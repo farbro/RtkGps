@@ -703,7 +703,7 @@ static void RtkServer__readsp3(JNIEnv* env, jclass thiz, jstring file)
 
 
 /* TODO: Implemenet __readrnxnav  */
-static void RtkServer__readrnxnavtc(JNIEnv* env, jclass thiz, jstring file)
+static void RtkServer__readrnxnavtc(JNIEnv* env, jclass thiz, jstring file, jlong time)
 {
    struct native_ctx_t *nctx;
    nav_t nav={0};
@@ -714,7 +714,7 @@ static void RtkServer__readrnxnavtc(JNIEnv* env, jclass thiz, jstring file)
    int rcv = 0;   // Probably not important
    double tint;   // ts - te?
 
-   ts.time = 0;
+   ts.time = time;
    ts.sec = 0;
    te.time = 0;
    te.sec = 0;
@@ -815,7 +815,7 @@ static JNINativeMethod nativeMethods[] = {
    {"_writeCommands", "([Ljava/lang/String;)V", (void*)RtkServer__write_commands},
    {"_readsp3","(Ljava/lang/String;)V", (void*)RtkServer__readsp3},
    {"_readsatant","(Ljava/lang/String;)V", (void*)RtkServer__readsatant}, 
-   {"_readrnxnavtc","(Ljava/lang/String;)V", (void*)RtkServer__readrnxnavtc}
+   {"_readrnxnavtc","(Ljava/lang/String;JLjava/lang/String;)V", (void*)RtkServer__readrnxnavtc} /* This line needs some fixing */
 };
 
 static int init_observation_status_fields(JNIEnv* env) {
