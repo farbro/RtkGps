@@ -741,7 +741,7 @@ static void RtkServer__readrnxnavtc(JNIEnv* env, jclass thiz, jstring file, jlon
 
 	const char *filename = (*env)->GetStringUTFChars(env, file, 0);
 
-    readrnxt(filename, 1, ts, te, tint, "", NULL, &naqv, NULL);
+    readrnxt(filename, 1, ts, te, tint, "", NULL, &nav, NULL);
 
 	//OK so update to server
 	svr = &nctx->rtksvr;
@@ -810,7 +810,7 @@ static JNINativeMethod nativeMethods[] = {
    {"_writeCommands", "([Ljava/lang/String;)V", (void*)RtkServer__write_commands},
    {"_readsp3","(Ljava/lang/String;)V", (void*)RtkServer__readsp3},
    {"_readsatant","(Ljava/lang/String;)V", (void*)RtkServer__readsatant}, 
-   {"_readrnxnavtc","(Ljava/lang/String;JLjava/lang/String;)V", (void*)RtkServer__readrnxnavtc} /* This line needs some fixing */
+   {"_readrnxnavtc","(Ljava/lang/String;J)V", (void*)RtkServer__readrnxnavtc}
 };
 
 static int init_observation_status_fields(JNIEnv* env) {
