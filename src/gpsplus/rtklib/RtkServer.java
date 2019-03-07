@@ -153,7 +153,7 @@ public class RtkServer {
     }
 
     public void readRNX(String file) {
-        _readrnxnavtc(file);
+        _readrnxnavtc(file, (System.currentTimeMillis()/1000-3600*6));
     }
 
     public void readSatAnt(String file){
@@ -241,5 +241,5 @@ public class RtkServer {
 
     private native void _readsp3(String file);
     private native void _readsatant(String file);
-    private native void _readrnxnavtc(String file);
+    private native void _readrnxnavtc(String file, long time);
 }
