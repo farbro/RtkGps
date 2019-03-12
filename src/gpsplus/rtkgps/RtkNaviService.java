@@ -482,14 +482,17 @@ public class RtkNaviService extends IntentService implements LocationListener {
             SharedPreferences prefs= this.getBaseContext().getSharedPreferences(OutputGPXTraceFragment.SHARED_PREFS_NAME, 0);
 //            if(prefs.getBoolean(OutputGPXTraceFragment.KEY_SYNCDROPBOX, false))
 //                {
-//                    String szFilename = prefs.getString(OutputGPXTraceFragment.KEY_FILENAME, "");
-//                    if (szFilename.length()>0)
-//                    {
-//                        String szPath = MainActivity.getFileStorageDirectory() + File.separator + szFilename;
-//                        mGpxTrace.writeFile(szPath);
+                    String szFilename = RtkCommon.reppath(prefs.getString(OutputGPXTraceFragment.KEY_FILENAME, ""),
+                            System.currentTimeMillis()/1000-3600*6,
+                            "", "");
+
+                    if (szFilename.length()>0)
+                    {
+                        String szPath = MainActivity.getFileStorageDirectory() + File.separator + szFilename;
+                        mGpxTrace.writeFile(szPath);
 //                    }
-//
-//                }
+
+                }
         }
 
     }
